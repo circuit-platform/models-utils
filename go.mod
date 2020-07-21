@@ -1,4 +1,4 @@
-module github.com/apuigsech/circuit/utils/models
+module github.com/circuit-platform/models-utils
 
 go 1.14
 
