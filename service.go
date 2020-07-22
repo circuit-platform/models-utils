@@ -16,9 +16,11 @@ type Options struct {
 	Host        	string `long:"host" description:"the IP to listen on" default:"localhost" env:"HOST"`
 	Port        	int    `long:"port" description:"the port to listen on for insecure connections, defaults to a random value" env:"PORT"`
 	DatabaseSource string `long:"database-source" description:"" env:"DB_SOURCE"`
+	KafkaSource    string `long:"kafka-source" description:"" env:"KAFKA_SOURCE"`
 }
 
 type CreateIndexFunc func(string, string) resource.Index
+type SyncDataFunc func(string, string)
 
 func parseOptionsOrExit() (opts Options) {
 	if (os.Getenv("SERVICE_HOST") != "") {
@@ -41,10 +43,14 @@ func parseOptionsOrExit() (opts Options) {
 	return opts
 }
 
-func Run(f CreateIndexFunc) {
+func Run(createIndex CreateIndexFunc, syncData SyncDataFunc) {
 	opts := parseOptionsOrExit()
 
-	index := f(opts.DatabaseSource, "public")
+	index := createIndex(opts.DatabaseSource, "public")
+
+	if syncData != nil {
+		syncData(opts.DatabaseSource, opts.KafkaSource)
+	}
 
 	api, err := rest.NewHandler(index)
 	if err != nil {
