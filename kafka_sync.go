@@ -36,7 +36,7 @@ func SyncIndex(readerConfig kafka.ReaderConfig, index resource.Index) {
 
 func SyncResource(_space string, _readerConfig kafka.ReaderConfig, _resource *resource.Resource) {
 	readerConfig := _readerConfig
-	readerConfig.Topic = _space "." + strings.ReplaceAll(_resource.Path(), ".", "_")
+	readerConfig.Topic = _space + "." + strings.ReplaceAll(_resource.Path(), ".", "_")
 
 	go func() {
 		reader := kafka.NewReader(readerConfig)
