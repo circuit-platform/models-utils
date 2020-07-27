@@ -34,9 +34,9 @@ func SyncIndex(readerConfig kafka.ReaderConfig, index resource.Index) {
 	}
 }
 
-func SyncResource(_readerConfig kafka.ReaderConfig, _resource *resource.Resource) {
+func SyncResource(_space string, _readerConfig kafka.ReaderConfig, _resource *resource.Resource) {
 	readerConfig := _readerConfig
-	readerConfig.Topic = "vulcan_security.public." + strings.ReplaceAll(_resource.Path(), ".", "_")
+	readerConfig.Topic = _space "." + strings.ReplaceAll(_resource.Path(), ".", "_")
 
 	go func() {
 		reader := kafka.NewReader(readerConfig)
