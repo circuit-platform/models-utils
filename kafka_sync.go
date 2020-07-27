@@ -22,7 +22,7 @@ type KafkaMessage struct {
 	}
 }
 
-func SyncIndex(readerConfig kafka.ReaderConfig, index resource.Index) {
+func SyncIndex(space string, readerConfig kafka.ReaderConfig, index resource.Index) {
 	if c, ok := index.(resource.Compiler); ok {
 		if err := c.Compile(); err != nil {
 			log.Println("Error Compiling Index:", err)
@@ -30,7 +30,7 @@ func SyncIndex(readerConfig kafka.ReaderConfig, index resource.Index) {
 	}
 
 	for _,r := range index.GetResources() {
-		SyncResource(readerConfig, r)
+		SyncResource(space, readerConfig, r)
 	}
 }
 
