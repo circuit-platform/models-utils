@@ -79,7 +79,7 @@ func SyncResource(_space string, _readerConfig kafka.ReaderConfig, _resource *re
 	}()
 
 	for _,r := range _resource.GetResources() {
-		SyncResource(_readerConfig, r)
+		SyncResource(_space, _readerConfig, r)
 	}
 }
 
